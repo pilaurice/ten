@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y4LTM4JLVF"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-Y4LTM4JLVF');
-</script>
+    <!-- Google tag (gtag.js) - Updated for your domain -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y4LTM4JLVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-YOUR_GA_ID', {
+        page_title: 'Ultimate Tic-Tac-Toe - TEN',
+        page_location: 'https://ten.sennepgames.com'
+      });
+      
+      // Custom events for game analytics
+      function trackGameEvent(action, difficulty = null) {
+        gtag('event', action, {
+          event_category: 'Game',
+          event_label: difficulty,
+          value: 1
+        });
+      }
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Tic-Tac-Toe</title>
+    <title>Ultimate Tic-Tac-Toe - TEN | Sennep Games</title>
+    <meta name="description" content="Play Ultimate Tic-Tac-Toe! Strategic tic-tac-toe with AI that thinks 6 moves ahead. Can you beat the AI on hard mode?">
+    
+    <!-- Favicon setup -->
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./android-chrome-512x512.png">
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="./manifest.json">
@@ -21,23 +41,31 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="TEN">
-    <link rel="apple-touch-icon" href="./icon-192.png">
     
-    <!-- Open Graph / Facebook -->
+    <!-- Updated Open Graph / Facebook meta tags -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://before2020.sennep.com/ten/Ten_design_invert/">
-    <meta property="og:title" content="Ultimate Tic-Tac-Toe - TEN">
-    <meta property="og:description" content="Play Ultimate Tic-Tac-Toe! Can you beat the AI on hard mode? A strategic twist on the classic game.">
-    <meta property="og:image" content="https://before2020.sennep.com/ten/Ten_design_invert/TEN.png">
+    <meta property="og:url" content="https://ten.sennepgames.com/">
+    <meta property="og:title" content="Ultimate Tic-Tac-Toe - TEN | Sennep Games">
+    <meta property="og:description" content="Play Ultimate Tic-Tac-Toe! Strategic tic-tac-toe with AI that thinks 6 moves ahead. Can you beat the AI on hard mode?">
+    <meta property="og:image" content="https://ten.sennepgames.com/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Sennep Games">
 
-    <!-- Twitter -->
+    <!-- Updated Twitter meta tags -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://before2020.sennep.com/ten/Ten_design_invert/">
-    <meta property="twitter:title" content="Ultimate Tic-Tac-Toe - TEN">
-    <meta property="twitter:description" content="Play Ultimate Tic-Tac-Toe! Can you beat the AI on hard mode? A strategic twist on the classic game.">
-    <meta property="twitter:image" content="https://before2020.sennep.com/ten/Ten_design_invert/TEN.png">
+    <meta property="twitter:url" content="https://ten.sennepgames.com/">
+    <meta property="twitter:title" content="Ultimate Tic-Tac-Toe - TEN | Sennep Games">
+    <meta property="twitter:description" content="Play Ultimate Tic-Tac-Toe! Strategic tic-tac-toe with AI that thinks 6 moves ahead. Can you beat the AI on hard mode?">
+    <meta property="twitter:image" content="https://ten.sennepgames.com/og-image.png">
+
+    <!-- Additional SEO meta tags -->
+    <meta name="keywords" content="tic-tac-toe, ultimate tic-tac-toe, strategy game, AI game, puzzle game, brain game, sennep games">
+    <meta name="author" content="Sennep Games">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://ten.sennepgames.com/">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -1495,6 +1523,9 @@
             clickDebounce = true;
             setTimeout(() => { clickDebounce = false; }, TIMING.CLICK_DEBOUNCE);
             
+            // Track move event
+            trackGameEvent('move', isAIGame ? aiDifficulty : '2player');
+            
             // Make the move
             makeMove(boardIndex, cellIndex, cell);
         }
@@ -1555,6 +1586,15 @@
                         markWinningTiles(gameWin.winningBoards);
                         updateGameOverState();
                         updateBoardStates();
+                        
+                        // Track game end event
+                        trackGameEvent('game_end', isAIGame ? aiDifficulty : '2player');
+                        if (gameWinner === 'X') {
+                            trackGameEvent('player_win', isAIGame ? aiDifficulty : '2player');
+                        } else if (isAIGame) {
+                            trackGameEvent('ai_win', aiDifficulty);
+                        }
+                        
                         return; // Exit early if game is won
                     }
                 }
@@ -1568,6 +1608,7 @@
                         if (!gameWinner && isGameDraw()) {
                             updateGameOverState(true);
                             updateBoardStates();
+                            trackGameEvent('game_draw', isAIGame ? aiDifficulty : '2player');
                         }
                         gameResultTimeout = null;
                     }, 100);
@@ -1780,6 +1821,9 @@
             clearAllTimeouts();
             clickDebounce = false;
             
+            // Track game reset
+            trackGameEvent('game_reset', isAIGame ? aiDifficulty : '2player');
+            
             // Reset game state
             currentPlayer = 'X';
             nextBoard = null;
@@ -1811,6 +1855,7 @@
             const modal = domCache.modal;
             if (!modal) return;
             
+            trackGameEvent('how_to_play_opened');
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
         }
@@ -1852,6 +1897,8 @@
         function start2Player() {
             isAIGame = false;
             aiDifficulty = null;
+            
+            trackGameEvent('game_start', '2player');
             
             document.body.classList.remove('splash-visible');
             document.body.classList.add('x-turn');
@@ -1905,6 +1952,8 @@
         }
 
         function startAIGame() {
+            trackGameEvent('game_start', aiDifficulty);
+            
             document.body.classList.remove('splash-visible');
             document.body.classList.add('x-turn');
             initializeBoard(true);
@@ -2050,712 +2099,21 @@
             return validMoves[Math.floor(Math.random() * validMoves.length)];
         }
 
-        // ULTRA-ENHANCED HARD AI: 5-6 move lookahead with minimax
+        // Hard AI: Advanced strategic thinking
         function getHardMove(validMoves) {
-            // Check for immediate game-ending moves first (depth 0 optimization)
+            // Check for immediate game-ending moves first
             const gameWinningMove = findGameWinningMove(validMoves);
             if (gameWinningMove) return gameWinningMove;
             
             const gameBlockingMove = findGameBlockingMove(validMoves);
             if (gameBlockingMove) return gameBlockingMove;
             
-            // Use minimax with alpha-beta pruning for deep strategic analysis
-            const depth = calculateOptimalDepth(validMoves.length);
-            const result = minimaxWithPruning(validMoves, depth, -Infinity, Infinity, true);
-            
-            if (result.move) {
-                return result.move;
-            }
-            
-            // Fallback to enhanced strategic move
-            const strategicMove = findBestStrategicMoveEnhanced(validMoves);
+            // Use strategic evaluation
+            const strategicMove = findBestStrategicMove(validMoves);
             return strategicMove || validMoves[0];
         }
-        
-        // Calculate optimal search depth based on game state
-        function calculateOptimalDepth(moveCount) {
-            const totalMoves = countTotalMoves();
-            
-            // Early game: deeper search (more options)
-            if (totalMoves < 10) return 6;
-            // Mid game: balanced depth
-            if (totalMoves < 30) return 5;
-            // Late game: deeper again (fewer branches)
-            if (totalMoves < 50) return 6;
-            // End game: maximum depth
-            return 7;
-        }
-        
-        // Minimax algorithm with alpha-beta pruning
-        function minimaxWithPruning(possibleMoves, depth, alpha, beta, isMaximizingPlayer) {
-            // Base case: reached depth limit or game over
-            if (depth === 0 || gameWinner || isGameDraw()) {
-                return {
-                    score: evaluateGameState(isMaximizingPlayer ? 'O' : 'X'),
-                    move: null
-                };
-            }
-            
-            let bestMove = null;
-            
-            if (isMaximizingPlayer) {
-                // AI's turn (maximizing)
-                let maxScore = -Infinity;
-                
-                // Sort moves by immediate promise for better pruning
-                const sortedMoves = sortMovesByPromise(possibleMoves, 'O');
-                
-                for (const move of sortedMoves) {
-                    if (!isValidMove(move.board, move.cell)) continue;
-                    
-                    // Make the move
-                    const gameState = makeTemporaryMove(move, 'O');
-                    
-                    // Get valid moves for next turn
-                    const nextMoves = getValidMovesForState(gameState);
-                    
-                    // Recurse
-                    const result = minimaxWithPruning(nextMoves, depth - 1, alpha, beta, false);
-                    
-                    // Undo the move
-                    undoTemporaryMove(gameState);
-                    
-                    if (result.score > maxScore) {
-                        maxScore = result.score;
-                        bestMove = move;
-                    }
-                    
-                    alpha = Math.max(alpha, result.score);
-                    
-                    // Alpha-beta pruning
-                    if (beta <= alpha) {
-                        break;
-                    }
-                }
-                
-                return { score: maxScore, move: bestMove };
-                
-            } else {
-                // Human's turn (minimizing)
-                let minScore = Infinity;
-                
-                // Sort moves by immediate promise for better pruning
-                const sortedMoves = sortMovesByPromise(possibleMoves, 'X');
-                
-                for (const move of sortedMoves) {
-                    if (!isValidMove(move.board, move.cell)) continue;
-                    
-                    // Make the move
-                    const gameState = makeTemporaryMove(move, 'X');
-                    
-                    // Get valid moves for next turn
-                    const nextMoves = getValidMovesForState(gameState);
-                    
-                    // Recurse
-                    const result = minimaxWithPruning(nextMoves, depth - 1, alpha, beta, true);
-                    
-                    // Undo the move
-                    undoTemporaryMove(gameState);
-                    
-                    if (result.score < minScore) {
-                        minScore = result.score;
-                        bestMove = move;
-                    }
-                    
-                    beta = Math.min(beta, result.score);
-                    
-                    // Alpha-beta pruning
-                    if (beta <= alpha) {
-                        break;
-                    }
-                }
-                
-                return { score: minScore, move: bestMove };
-            }
-        }
-        
-        // Sort moves by immediate strategic promise for better pruning
-        function sortMovesByPromise(moves, player) {
-            return moves.map(move => {
-                let promise = 0;
-                
-                // Prioritize moves that win boards
-                const tempState = makeTemporaryMove(move, player);
-                if (tempState.wonBoard) {
-                    promise += 100;
-                    
-                    // Extra points if it wins the game
-                    if (tempState.wonGame) {
-                        promise += 1000;
-                    }
-                }
-                undoTemporaryMove(tempState);
-                
-                // Prioritize center positions
-                if (move.cell === 4) promise += 20;
-                if ([0, 2, 6, 8].includes(move.cell)) promise += 10;
-                
-                // Prioritize important boards
-                if (move.board === 4) promise += 15;
-                if ([0, 2, 6, 8].includes(move.board)) promise += 8;
-                
-                return { move, promise };
-            })
-            .sort((a, b) => b.promise - a.promise)
-            .map(item => item.move);
-        }
-        
-        // Make a temporary move and return game state changes
-        function makeTemporaryMove(move, player) {
-            const originalCell = gameBoard[move.board][move.cell];
-            const originalWinner = boardWinners[move.board];
-            const originalGameWinner = gameWinner;
-            const originalNextBoard = nextBoard;
-            
-            // Make the move
-            gameBoard[move.board][move.cell] = player;
-            
-            // Check for board win
-            let wonBoard = false;
-            let wonGame = false;
-            
-            if (!originalWinner) {
-                const winner = checkBoardWinner(move.board);
-                if (winner) {
-                    boardWinners[move.board] = winner;
-                    wonBoard = true;
-                    
-                    // Check for game win
-                    const gameWin = checkGameWinner();
-                    if (gameWin) {
-                        gameWinner = gameWin;
-                        wonGame = true;
-                    }
-                }
-            }
-            
-            // Update next board
-            nextBoard = boardWinners[move.cell] || isBoardFull(move.cell) ? null : move.cell;
-            
-            return {
-                move,
-                originalCell,
-                originalWinner,
-                originalGameWinner,
-                originalNextBoard,
-                wonBoard,
-                wonGame
-            };
-        }
-        
-        // Undo a temporary move
-        function undoTemporaryMove(gameState) {
-            gameBoard[gameState.move.board][gameState.move.cell] = gameState.originalCell;
-            boardWinners[gameState.move.board] = gameState.originalWinner;
-            gameWinner = gameState.originalGameWinner;
-            nextBoard = gameState.originalNextBoard;
-        }
-        
-        // Get valid moves for a given game state
-        function getValidMovesForState(gameState) {
-            const validMoves = [];
-            
-            if (nextBoard !== null && nextBoard >= 0 && nextBoard <= 8 && !boardWinners[nextBoard]) {
-                // Specific board constraint
-                for (let i = 0; i < 9; i++) {
-                    if (!gameBoard[nextBoard][i]) {
-                        validMoves.push({ board: nextBoard, cell: i });
-                    }
-                }
-            } else {
-                // Any available board
-                for (let b = 0; b < 9; b++) {
-                    if (!boardWinners[b]) {
-                        for (let c = 0; c < 9; c++) {
-                            if (!gameBoard[b][c]) {
-                                validMoves.push({ board: b, cell: c });
-                            }
-                        }
-                    }
-                }
-            }
-            
-            return validMoves;
-        }
-        
-        // Comprehensive game state evaluation
-        function evaluateGameState(forPlayer) {
-            // Terminal states
-            if (gameWinner === forPlayer) return 10000;
-            if (gameWinner && gameWinner !== forPlayer) return -10000;
-            if (isGameDraw()) return 0;
-            
-            let score = 0;
-            
-            // 1. Board control evaluation
-            score += evaluateBoardControlAdvanced(forPlayer) * 100;
-            
-            // 2. Winning line potential
-            score += evaluateWinningLines(forPlayer) * 50;
-            
-            // 3. Board positioning
-            score += evaluateBoardPositioning(forPlayer) * 30;
-            
-            // 4. Center control
-            score += evaluateCenterControl(forPlayer) * 25;
-            
-            // 5. Constraint evaluation (where opponent can play)
-            score += evaluateConstraintAdvantage(forPlayer) * 40;
-            
-            // 6. Tempo and initiative
-            score += evaluateTempo(forPlayer) * 20;
-            
-            return score;
-        }
-        
-        // Advanced board control evaluation
-        function evaluateBoardControlAdvanced(player) {
-            let control = 0;
-            
-            for (let b = 0; b < 9; b++) {
-                if (boardWinners[b] === player) {
-                    control += getBoardValue(b);
-                } else if (boardWinners[b] && boardWinners[b] !== player) {
-                    control -= getBoardValue(b);
-                } else if (!boardWinners[b]) {
-                    // Evaluate potential control
-                    const influence = evaluateBoardInfluence(b, player);
-                    control += influence * getBoardValue(b) * 0.1;
-                }
-            }
-            
-            return control;
-        }
-        
-        // Get strategic value of a board position
-        function getBoardValue(boardIndex) {
-            if (boardIndex === 4) return 10; // Center
-            if ([0, 2, 6, 8].includes(boardIndex)) return 7; // Corners
-            return 4; // Edges
-        }
-        
-        // Evaluate influence/control over a board
-        function evaluateBoardInfluence(boardIndex, player) {
-            if (boardWinners[boardIndex]) return 0;
-            
-            let influence = 0;
-            const board = gameBoard[boardIndex];
-            
-            // Count pieces
-            let ourPieces = 0;
-            let theirPieces = 0;
-            
-            for (let i = 0; i < 9; i++) {
-                if (board[i] === player) ourPieces++;
-                else if (board[i] && board[i] !== player) theirPieces++;
-            }
-            
-            // If we're alone in the board, we have strong influence
-            if (ourPieces > 0 && theirPieces === 0) {
-                influence += ourPieces * 5;
-            } else if (theirPieces > 0 && ourPieces === 0) {
-                influence -= theirPieces * 5;
-            } else {
-                influence += (ourPieces - theirPieces) * 2;
-            }
-            
-            // Check for near-wins
-            if (canWinBoard(boardIndex, player)) {
-                influence += 15;
-            }
-            if (canWinBoard(boardIndex, player === 'X' ? 'O' : 'X')) {
-                influence -= 15;
-            }
-            
-            return influence;
-        }
-        
-        // Evaluate winning line potential across the meta-game
-        function evaluateWinningLines(player) {
-            let lineValue = 0;
-            
-            const lines = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-                [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-                [0, 4, 8], [2, 4, 6] // diagonals
-            ];
-            
-            for (const line of lines) {
-                const lineStatus = evaluateMetaLine(line, player);
-                lineValue += lineStatus;
-            }
-            
-            return lineValue;
-        }
-        
-        // Evaluate a winning line on the meta-board
-        function evaluateMetaLine(line, player) {
-            let ourBoards = 0;
-            let theirBoards = 0;
-            let neutralBoards = 0;
-            let totalInfluence = 0;
-            
-            for (const boardIndex of line) {
-                if (boardWinners[boardIndex] === player) {
-                    ourBoards++;
-                } else if (boardWinners[boardIndex] && boardWinners[boardIndex] !== player) {
-                    theirBoards++;
-                } else {
-                    neutralBoards++;
-                    // Add influence we have over neutral boards
-                    totalInfluence += evaluateBoardInfluence(boardIndex, player);
-                }
-            }
-            
-            // Line is blocked
-            if (ourBoards > 0 && theirBoards > 0) return 0;
-            
-            // We can win this line
-            if (ourBoards === 2 && neutralBoards === 1) return 100;
-            if (ourBoards === 1 && neutralBoards === 2) return 20 + totalInfluence * 0.5;
-            if (ourBoards === 0 && neutralBoards === 3) return totalInfluence * 0.2;
-            
-            // They can win this line
-            if (theirBoards === 2 && neutralBoards === 1) return -80;
-            if (theirBoards === 1 && neutralBoards === 2) return -15 + totalInfluence * 0.3;
-            
-            return totalInfluence * 0.1;
-        }
-        
-        // Evaluate board positioning strategy
-        function evaluateBoardPositioning(player) {
-            let positioning = 0;
-            
-            // Bonus for controlling center boards
-            if (boardWinners[4] === player) positioning += 20;
-            if (boardWinners[4] && boardWinners[4] !== player) positioning -= 20;
-            
-            // Bonus for corner control
-            const corners = [0, 2, 6, 8];
-            let ourCorners = 0;
-            let theirCorners = 0;
-            
-            for (const corner of corners) {
-                if (boardWinners[corner] === player) ourCorners++;
-                else if (boardWinners[corner] && boardWinners[corner] !== player) theirCorners++;
-            }
-            
-            positioning += (ourCorners - theirCorners) * 8;
-            
-            return positioning;
-        }
-        
-        // Evaluate center control within boards
-        function evaluateCenterControl(player) {
-            let centerControl = 0;
-            
-            for (let b = 0; b < 9; b++) {
-                if (!boardWinners[b] && gameBoard[b][4] === player) {
-                    centerControl += getBoardValue(b);
-                } else if (!boardWinners[b] && gameBoard[b][4] && gameBoard[b][4] !== player) {
-                    centerControl -= getBoardValue(b);
-                }
-            }
-            
-            return centerControl;
-        }
-        
-        // Evaluate constraint advantage (opponent's freedom)
-        function evaluateConstraintAdvantage(player) {
-            let advantage = 0;
-            
-            // If opponent has free choice, that's bad for us
-            if (nextBoard === null) {
-                const opponentOptions = getValidMoves().length;
-                advantage -= opponentOptions * 0.5;
-            } else {
-                // Opponent is constrained - evaluate how bad their situation is
-                const boardOptions = countEmptyCells(nextBoard);
-                advantage += (9 - boardOptions) * 2;
-                
-                // Extra penalty if they're forced into a board we control
-                const ourInfluence = evaluateBoardInfluence(nextBoard, player);
-                advantage += ourInfluence * 0.3;
-                
-                // Big bonus if they're forced where they can't win
-                if (!canWinBoard(nextBoard, player === 'X' ? 'O' : 'X')) {
-                    advantage += 5;
-                }
-            }
-            
-            return advantage;
-        }
-        
-        // Evaluate tempo and initiative
-        function evaluateTempo(player) {
-            let tempo = 0;
-            
-            // Count how many boards we can win vs opponent
-            let ourWinOpportunities = 0;
-            let theirWinOpportunities = 0;
-            
-            for (let b = 0; b < 9; b++) {
-                if (!boardWinners[b]) {
-                    if (canWinBoard(b, player)) ourWinOpportunities++;
-                    if (canWinBoard(b, player === 'X' ? 'O' : 'X')) theirWinOpportunities++;
-                }
-            }
-            
-            tempo += (ourWinOpportunities - theirWinOpportunities) * 5;
-            
-            // Bonus for having multiple threats
-            if (ourWinOpportunities >= 2) tempo += 10;
-            if (theirWinOpportunities >= 2) tempo -= 8;
-            
-            return tempo;
-        }
-        
-        // Count total moves played
-        function countTotalMoves() {
-            let count = 0;
-            for (let b = 0; b < 9; b++) {
-                for (let c = 0; c < 9; c++) {
-                    if (gameBoard[b] && gameBoard[b][c]) {
-                        count++;
-                    }
-                }
-            }
-            return count;
-        }
 
-        // Enhanced strategic move finder with deep evaluation
-        function findBestStrategicMoveEnhanced(validMoves) {
-            const evaluatedMoves = validMoves.map(move => {
-                const evaluation = evaluateFullMoveConsequence(move);
-                return { move, ...evaluation };
-            });
-            
-            // Sort by total strategic value
-            evaluatedMoves.sort((a, b) => b.totalScore - a.totalScore);
-            
-            // Filter moves that are clearly bad
-            const viableMoves = evaluatedMoves.filter(m => m.totalScore > -100);
-            
-            if (viableMoves.length === 0) {
-                return evaluatedMoves[0].move; // Best of the bad options
-            }
-            
-            // Add some randomness among top moves to avoid predictability
-            const topTier = viableMoves.filter(m => 
-                m.totalScore >= viableMoves[0].totalScore - 20
-            );
-            
-            return topTier[Math.floor(Math.random() * topTier.length)].move;
-        }
-
-        // Comprehensive move evaluation
-        function evaluateFullMoveConsequence(move) {
-            let totalScore = 0;
-            
-            // 1. Immediate board impact
-            const boardValue = evaluateBoardImportance(move.board);
-            const positionValue = evaluatePositionValue(move.board, move.cell);
-            totalScore += (boardValue + positionValue) * 2;
-            
-            // 2. Where does this send the opponent?
-            const targetBoard = move.cell;
-            const opponentConstraint = evaluateOpponentConstraint(targetBoard);
-            totalScore += opponentConstraint * 3; // This is crucial
-            
-            // 3. Does this create winning opportunities for us?
-            const winOpportunities = evaluateWinOpportunities(move);
-            totalScore += winOpportunities * 10;
-            
-            // 4. Does this prevent opponent wins?
-            const blockingValue = evaluateBlockingValue(move);
-            totalScore += blockingValue * 8;
-            
-            // 5. Long-term board control
-            const controlValue = evaluateBoardControl(move);
-            totalScore += controlValue * 5;
-            
-            // 6. Avoid giving opponent free choice
-            if (boardWinners[targetBoard] || isBoardFull(targetBoard)) {
-                const opponentOptions = countOpponentOptions();
-                totalScore -= opponentOptions * 15; // Heavy penalty
-            }
-            
-            return {
-                totalScore,
-                boardValue,
-                positionValue,
-                opponentConstraint,
-                winOpportunities,
-                blockingValue,
-                controlValue
-            };
-        }
-
-        // Evaluate how important a board is strategically
-        function evaluateBoardImportance(boardIndex) {
-            let importance = 0;
-            
-            // Center board is most valuable
-            if (boardIndex === 4) importance += 15;
-            
-            // Corner boards are valuable
-            if ([0, 2, 6, 8].includes(boardIndex)) importance += 8;
-            
-            // Edge boards are less valuable
-            if ([1, 3, 5, 7].includes(boardIndex)) importance += 3;
-            
-            // Check how many winning lines this board participates in
-            const lines = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-                [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-                [0, 4, 8], [2, 4, 6] // diagonals
-            ];
-            
-            for (const line of lines) {
-                if (line.includes(boardIndex)) {
-                    const lineStatus = evaluateLineStatus(line, boardWinners);
-                    importance += lineStatus;
-                }
-            }
-            
-            return importance;
-        }
-
-        // Evaluate the strategic value of a position within a board
-        function evaluatePositionValue(boardIndex, cellIndex) {
-            let value = 0;
-            
-            // Center cell is most valuable
-            if (cellIndex === 4) value += 8;
-            
-            // Corner cells are valuable
-            if ([0, 2, 6, 8].includes(cellIndex)) value += 5;
-            
-            // Edge cells are less valuable
-            if ([1, 3, 5, 7].includes(cellIndex)) value += 2;
-            
-            // Bonus if this position helps create multiple threats
-            const threatCount = countThreatsFromPosition(boardIndex, cellIndex, 'O');
-            value += threatCount * 3;
-            
-            return value;
-        }
-
-        // Evaluate where we're sending the opponent
-        function evaluateOpponentConstraint(targetBoard) {
-            if (targetBoard < 0 || targetBoard > 8) return 0;
-            
-            // If target board is won/full, opponent gets free choice (bad for us)
-            if (boardWinners[targetBoard] || isBoardFull(targetBoard)) {
-                return -50; // Heavy penalty
-            }
-            
-            let constraintValue = 0;
-            
-            // How many good options does opponent have in target board?
-            const opponentMoves = [];
-            for (let i = 0; i < 9; i++) {
-                if (!gameBoard[targetBoard][i]) {
-                    opponentMoves.push(i);
-                }
-            }
-            
-            // Fewer options is better for us
-            constraintValue += (9 - opponentMoves.length) * 5;
-            
-            // Check if opponent can win the target board
-            if (canWinBoard(targetBoard, 'X')) {
-                constraintValue -= 30; // Bad to send them where they can win
-            }
-            
-            // Check if we have presence in the target board
-            const ourPresence = countPlayerCells(targetBoard, 'O');
-            constraintValue += ourPresence * 3;
-            
-            // Check board importance
-            const boardImportance = evaluateBoardImportance(targetBoard);
-            constraintValue -= boardImportance * 0.5; // Don't send them to important boards
-            
-            return constraintValue;
-        }
-
-        // Count immediate threats from a position
-        function countThreatsFromPosition(boardIndex, cellIndex, player) {
-            if (!gameBoard[boardIndex]) return 0;
-            
-            // Temporarily place the piece
-            gameBoard[boardIndex][cellIndex] = player;
-            
-            let threats = 0;
-            const lines = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-                [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-                [0, 4, 8], [2, 4, 6] // diagonals
-            ];
-            
-            for (const line of lines) {
-                if (line.includes(cellIndex)) {
-                    const values = line.map(i => gameBoard[boardIndex][i]);
-                    const playerCount = values.filter(v => v === player).length;
-                    const emptyCount = values.filter(v => v === null).length;
-                    
-                    if (playerCount === 2 && emptyCount === 1) {
-                        threats++; // This creates a winning threat
-                    }
-                }
-            }
-            
-            // Remove the temporary piece
-            gameBoard[boardIndex][cellIndex] = null;
-            
-            return threats;
-        }
-
-        // Evaluate line status for strategic planning
-        function evaluateLineStatus(line, winners) {
-            let ourBoards = 0;
-            let theirBoards = 0;
-            let emptyBoards = 0;
-            
-            for (const boardIndex of line) {
-                if (winners[boardIndex] === 'O') ourBoards++;
-                else if (winners[boardIndex] === 'X') theirBoards++;
-                else emptyBoards++;
-            }
-            
-            // If line is blocked, no value
-            if (ourBoards > 0 && theirBoards > 0) return 0;
-            
-            // Pure lines are valuable
-            if (ourBoards === 2 && emptyBoards === 1) return 50; // We can win!
-            if (ourBoards === 1 && emptyBoards === 2) return 20; // Good potential
-            if (theirBoards === 2 && emptyBoards === 1) return -40; // They can win
-            if (theirBoards === 1 && emptyBoards === 2) return -15; // They have potential
-            
-            return emptyBoards; // Open line has some value
-        }
-
-        // Count opponent's options across all boards
-        function countOpponentOptions() {
-            let options = 0;
-            for (let b = 0; b < 9; b++) {
-                if (!boardWinners[b]) {
-                    for (let c = 0; c < 9; c++) {
-                        if (!gameBoard[b][c]) {
-                            options++;
-                        }
-                    }
-                }
-            }
-            return options;
-        }
-
-        // Enhanced utility functions
+        // Find game-winning move
         function findGameWinningMove(validMoves) {
             for (const move of validMoves) {
                 const originalValue = gameBoard[move.board][move.cell];
@@ -2766,7 +2124,8 @@
                 if (!originalWinner && checkBoardWinner(move.board) === 'O') {
                     boardWinners[move.board] = 'O';
                     
-                    if (checkGameWinner() === 'O') {
+                    const gameWin = checkGameWinner();
+                    if (gameWin && gameWin.winner === 'O') {
                         gameBoard[move.board][move.cell] = originalValue;
                         boardWinners[move.board] = originalWinner;
                         return move;
@@ -2781,6 +2140,7 @@
             return null;
         }
 
+        // Find game-blocking move
         function findGameBlockingMove(validMoves) {
             for (const move of validMoves) {
                 const originalValue = gameBoard[move.board][move.cell];
@@ -2791,7 +2151,8 @@
                 if (!originalWinner && checkBoardWinner(move.board) === 'X') {
                     boardWinners[move.board] = 'X';
                     
-                    if (checkGameWinner() === 'X') {
+                    const gameWin = checkGameWinner();
+                    if (gameWin && gameWin.winner === 'X') {
                         gameBoard[move.board][move.cell] = originalValue;
                         boardWinners[move.board] = originalWinner;
                         return move;
@@ -2806,98 +2167,36 @@
             return null;
         }
 
-        function evaluateMoveConsequence(move) {
-            const targetBoard = move.cell;
-            let opponentAdvantage = 0;
-            
-            if (targetBoard >= 0 && targetBoard <= 8) {
+        // Find best strategic move
+        function findBestStrategicMove(validMoves) {
+            const evaluatedMoves = validMoves.map(move => {
+                let score = 0;
+                
+                // Evaluate board importance
+                if (move.board === 4) score += 10; // Center board
+                if ([0, 2, 6, 8].includes(move.board)) score += 5; // Corner boards
+                
+                // Evaluate cell position
+                if (move.cell === 4) score += 8; // Center cell
+                if ([0, 2, 6, 8].includes(move.cell)) score += 4; // Corner cells
+                
+                // Evaluate where this sends opponent
+                const targetBoard = move.cell;
                 if (boardWinners[targetBoard] || isBoardFull(targetBoard)) {
-                    opponentAdvantage += 100; // Free choice is very bad
+                    score -= 20; // Bad - gives opponent free choice
                 } else {
-                    if (canWinBoard(targetBoard, 'X')) {
-                        opponentAdvantage += 50; // They can win the board
-                    }
-                    
-                    const opponentOptions = countEmptyCells(targetBoard);
-                    opponentAdvantage += opponentOptions * 2; // More options = more advantage
-                }
-            }
-            
-            return { opponentAdvantage };
-        }
-
-        function evaluateWinOpportunities(move) {
-            // Check if this move creates a winning opportunity for us
-            let opportunities = 0;
-            
-            // Does this win the current board?
-            const originalValue = gameBoard[move.board][move.cell];
-            gameBoard[move.board][move.cell] = 'O';
-            
-            if (checkBoardWinner(move.board) === 'O') {
-                opportunities += 20; // Winning a board is good
-                
-                // Does winning this board create game-winning opportunities?
-                const tempWinner = boardWinners[move.board];
-                boardWinners[move.board] = 'O';
-                
-                const lines = [
-                    [0, 1, 2], [3, 4, 5], [6, 7, 8],
-                    [0, 3, 6], [1, 4, 7], [2, 5, 8],
-                    [0, 4, 8], [2, 4, 6]
-                ];
-                
-                for (const line of lines) {
-                    if (line.includes(move.board)) {
-                        const lineStatus = evaluateLineStatus(line, boardWinners);
-                        opportunities += lineStatus;
-                    }
+                    if (canWinBoard(targetBoard, 'X')) score -= 15; // Bad - opponent can win
+                    if (canWinBoard(targetBoard, 'O')) score += 10; // Good - we can threaten
                 }
                 
-                boardWinners[move.board] = tempWinner;
-            } else {
-                // Does this create threats in the board?
-                opportunities += countThreatsFromPosition(move.board, move.cell, 'O') * 5;
-            }
+                return { move, score };
+            });
             
-            gameBoard[move.board][move.cell] = originalValue;
-            
-            return opportunities;
+            evaluatedMoves.sort((a, b) => b.score - a.score);
+            return evaluatedMoves[0].move;
         }
 
-        function evaluateBlockingValue(move) {
-            let blockingValue = 0;
-            
-            // Does this block opponent from winning the board?
-            const originalValue = gameBoard[move.board][move.cell];
-            gameBoard[move.board][move.cell] = 'X';
-            
-            if (checkBoardWinner(move.board) === 'X') {
-                blockingValue += 15; // Blocking a board win is valuable
-            }
-            
-            gameBoard[move.board][move.cell] = originalValue;
-            
-            return blockingValue;
-        }
-
-        function evaluateBoardControl(move) {
-            // Evaluate long-term control of the board
-            let controlValue = 0;
-            
-            const ourCells = countPlayerCells(move.board, 'O') + 1; // +1 for this move
-            const theirCells = countPlayerCells(move.board, 'X');
-            
-            if (theirCells === 0) {
-                controlValue += ourCells * 5; // Uncontested board control
-            } else {
-                controlValue += (ourCells - theirCells) * 2; // Relative control
-            }
-            
-            return controlValue;
-        }
-
-        // Original AI helper functions (simplified versions for other difficulties)
+        // Original AI helper functions
         function findWinningMove(validMoves) {
             for (const move of validMoves) {
                 if (!gameBoard[move.board]) continue;
@@ -2969,39 +2268,7 @@
             return topMoves.length > 0 ? topMoves[Math.floor(Math.random() * topMoves.length)].move : null;
         }
 
-        function findWorstPositionForOpponent(validMoves) {
-            if (validMoves.length === 1) return validMoves[0];
-            
-            const scoredMoves = validMoves.map(move => {
-                let score = 0;
-                const targetBoard = move.cell;
-                
-                if (targetBoard >= 0 && targetBoard <= 8) {
-                    if (boardWinners[targetBoard] || isBoardFull(targetBoard)) {
-                        const activeBoards = countActiveBoards();
-                        score -= 50 * activeBoards;
-                        
-                        const winnableBoards = countWinnableBoards('X');
-                        score -= 20 * winnableBoards;
-                    } else {
-                        let options = countEmptyCells(targetBoard);
-                        score += (9 - options) * 3;
-                        
-                        if (canWinBoard(targetBoard, 'X')) score -= 30;
-                        
-                        const ourPresence = countPlayerCells(targetBoard, 'O');
-                        score += ourPresence * 2;
-                    }
-                }
-                
-                return { move, score };
-            });
-            
-            scoredMoves.sort((a, b) => b.score - a.score);
-            return scoredMoves[0].move;
-        }
-
-        // Utility functions for AI with bounds checking
+        // Utility functions for AI
         function canWinBoard(boardIndex, player) {
             if (boardIndex < 0 || boardIndex > 8 || !gameBoard[boardIndex]) return false;
             
@@ -3035,32 +2302,12 @@
             return count;
         }
 
-        function countWinnableBoards(player) {
-            let count = 0;
-            for (let i = 0; i < 9; i++) {
-                if (!boardWinners[i] && !isBoardFull(i) && canWinBoard(i, player)) {
-                    count++;
-                }
-            }
-            return count;
-        }
-
         function countEmptyCells(boardIndex) {
             if (boardIndex < 0 || boardIndex > 8 || !gameBoard[boardIndex]) return 0;
             
             let count = 0;
             for (let i = 0; i < 9; i++) {
                 if (!gameBoard[boardIndex][i]) count++;
-            }
-            return count;
-        }
-
-        function countPlayerCells(boardIndex, player) {
-            if (boardIndex < 0 || boardIndex > 8 || !gameBoard[boardIndex]) return 0;
-            
-            let count = 0;
-            for (let i = 0; i < 9; i++) {
-                if (gameBoard[boardIndex][i] === player) count++;
             }
             return count;
         }
@@ -3090,7 +2337,7 @@
         // Share functionality with error handling
         async function shareGame() {
             const shareData = {
-                title: 'Ultimate Tic-Tac-Toe',
+                title: 'Ultimate Tic-Tac-Toe - TEN',
                 text: 'Play Ultimate Tic-Tac-Toe - Can you beat the AI on hard mode?',
                 url: window.location.href
             };
@@ -3098,17 +2345,21 @@
             try {
                 if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
                     await navigator.share(shareData);
+                    trackGameEvent('share_success', 'native');
                 } else {
                     await copyToClipboard(window.location.href);
                     showToast('Link copied!');
+                    trackGameEvent('share_success', 'clipboard');
                 }
             } catch (err) {
                 if (err.name !== 'AbortError') {
                     try {
                         await copyToClipboard(window.location.href);
                         showToast('Link copied!');
+                        trackGameEvent('share_success', 'clipboard');
                     } catch (copyErr) {
                         showToast('Share failed');
+                        trackGameEvent('share_failed');
                     }
                 }
             }

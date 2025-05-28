@@ -713,6 +713,38 @@ body:not(.splash-visible) .game-container {
 /* =================================================================
    NAVIGATION BUTTONS
    ================================================================= */
+/* Info button (shows on main splash only) */
+.info-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: #2B3250;
+    border-radius: 50%;
+    box-shadow: 
+        4px 4px 6px rgba(0, 0, 0, 0.35),
+        0px 12px 40px 3px rgba(0, 0, 0, 0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: none;
+    outline: none;
+    z-index: 100;
+}
+
+.info-button:hover {
+    background-color: #384169;
+}
+
+.info-button svg {
+    width: 20px;
+    height: 20px;
+    color: white;
+}
+
 /* Home button */
 .home-button {
     position: fixed;
@@ -777,6 +809,12 @@ body:not(.splash-visible) .game-container {
     color: white;
 }
 
+/* Button visibility logic */
+/* Show info button ONLY on main splash screen */
+body.splash-visible:not(.ai-difficulty-visible) .info-button {
+    display: flex;
+}
+
 /* Show home button during gameplay and AI difficulty menu */
 body:not(.splash-visible) .home-button,
 body.splash-visible.ai-difficulty-visible .home-button {
@@ -785,6 +823,12 @@ body.splash-visible.ai-difficulty-visible .home-button {
 
 /* Hide home button on main splash screen only */
 body.splash-visible:not(.ai-difficulty-visible) .home-button {
+    display: none !important;
+}
+
+/* Hide info button when NOT on main splash screen */
+body:not(.splash-visible) .info-button,
+body.splash-visible.ai-difficulty-visible .info-button {
     display: none !important;
 }
 
@@ -919,6 +963,17 @@ body.splash-visible:not(.ai-difficulty-visible) .home-button {
     color: #B8BCC8;
     line-height: 1.6;
     margin: 0 0 16px 0;
+}
+
+.modal-body a {
+    color: white;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.modal-body a:hover {
+    color: #B8BCC8;
+    text-decoration: underline;
 }
 
 .modal-body ul {
@@ -1164,6 +1219,7 @@ body.draw .turn-indicator {
    ================================================================= */
 /* Mobile adjustments */
 @media (max-width: 600px) {
+    .info-button,
     .home-button,
     .share-button {
         width: 36px;
@@ -1171,6 +1227,7 @@ body.draw .turn-indicator {
         top: 16px;
     }
 
+    .info-button,
     .home-button {
         left: 16px;
     }
@@ -1179,6 +1236,7 @@ body.draw .turn-indicator {
         right: 16px;
     }
 
+    .info-button svg,
     .home-button svg,
     .share-button svg {
         width: 18px;

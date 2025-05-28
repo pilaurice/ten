@@ -47,20 +47,35 @@ function initializeEventListeners() {
         });
     }
 
-    // Modal close events
-    const modal = domCache.modal;
-    if (modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
+    // Modal close events for both modals
+    const howToPlayModal = domCache.modal;
+    const appInfoModal = document.getElementById('appInfoModal');
+    
+    if (howToPlayModal) {
+        howToPlayModal.addEventListener('click', (e) => {
+            if (e.target === howToPlayModal) {
                 closeHowToPlay();
             }
         });
     }
+    
+    if (appInfoModal) {
+        appInfoModal.addEventListener('click', (e) => {
+            if (e.target === appInfoModal) {
+                closeAppInfo();
+            }
+        });
+    }
 
-    // Escape key to close modal
+    // Escape key to close modals
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal && modal.classList.contains('show')) {
-            closeHowToPlay();
+        if (e.key === 'Escape') {
+            if (howToPlayModal && howToPlayModal.classList.contains('show')) {
+                closeHowToPlay();
+            }
+            if (appInfoModal && appInfoModal.classList.contains('show')) {
+                closeAppInfo();
+            }
         }
     });
 }
@@ -453,6 +468,29 @@ function hideAIThinking() {
 // =================================================================
 
 /**
+ * Show app info modal
+ */
+function showAppInfo() {
+    const modal = document.getElementById('appInfoModal');
+    if (!modal) return;
+    
+    trackUIEvent('app_info_opened');
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Close app info modal
+ */
+function closeAppInfo() {
+    const modal = document.getElementById('appInfoModal');
+    if (!modal) return;
+    
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+/**
  * Show how to play modal
  */
 function showHowToPlay() {
@@ -609,6 +647,8 @@ function showToast(message) {
 // =================================================================
 
 // Make functions available globally for HTML onclick attributes
+window.showAppInfo = showAppInfo;
+window.closeAppInfo = closeAppInfo;
 window.showHowToPlay = showHowToPlay;
 window.closeHowToPlay = closeHowToPlay;
 window.goToHome = goToHome;

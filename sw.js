@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ultimate-tictactoe-v3';
+const CACHE_NAME = 'ultimate-tictactoe-v4';
 const urlsToCache = [
   // Core files
   './',

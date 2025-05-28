@@ -426,7 +426,7 @@ body.splash-visible .turn-indicator {
 /* Turn indicator text */
 .turn-indicator .turn-text {
     color: white;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-weight: 400;
     font-size: 32px;
     margin-left: 16px;
@@ -463,7 +463,7 @@ body.splash-visible .turn-indicator {
 
 .play-again-text {
     color: white;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-weight: 400;
     font-size: 16px;
 }
@@ -514,7 +514,7 @@ body.draw .play-again-placeholder {
 
 .menu-button-text {
     color: white;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-weight: 400;
     font-size: 16px;
 }
@@ -554,7 +554,7 @@ body.draw .play-again-placeholder {
 
 .ai-thinking-text {
     color: white;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-weight: 400;
     font-size: 16px;
 }
@@ -672,7 +672,7 @@ body:not(.splash-visible) .game-container {
 }
 
 .splash-title {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-weight: 600;
     font-size: 30px;
     color: white;
@@ -680,7 +680,7 @@ body:not(.splash-visible) .game-container {
 }
 
 .splash-subtitle {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-weight: 400;
     font-size: 16px;
     color: white;
@@ -846,7 +846,7 @@ body.splash-visible.ai-difficulty-visible .info-button {
     box-shadow: 
         4px 4px 6px rgba(0, 0, 0, 0.35),
         0px 12px 40px 3px rgba(0, 0, 0, 0.4);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-size: 14px;
     font-weight: 400;
     opacity: 0;
@@ -911,7 +911,7 @@ body.splash-visible.ai-difficulty-visible .info-button {
 }
 
 .modal-title {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-weight: 600;
     font-size: 24px;
     color: white;
@@ -945,7 +945,7 @@ body.splash-visible.ai-difficulty-visible .info-button {
 }
 
 .modal-body h3 {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-weight: 600;
     font-size: 18px;
     color: white;
@@ -957,7 +957,7 @@ body.splash-visible.ai-difficulty-visible .info-button {
 }
 
 .modal-body p {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-weight: 400;
     font-size: 14px;
     color: #B8BCC8;
@@ -982,7 +982,7 @@ body.splash-visible.ai-difficulty-visible .info-button {
 }
 
 .modal-body li {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-weight: 400;
     font-size: 14px;
     color: #B8BCC8;
@@ -1040,7 +1040,7 @@ body.splash-visible.ai-difficulty-visible .info-button {
 
 .modal-button-text {
     color: white;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lexend', sans-serif;
     font-weight: 400;
     font-size: 14px;
 }

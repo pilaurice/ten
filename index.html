@@ -66,6 +66,12 @@
 </head>
 <body class="splash-visible">
     <!-- Navigation buttons -->
+    <button class="info-button" onclick="showAppInfo()" aria-label="App information">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="currentColor"/>
+        </svg>
+    </button>
+
     <button class="home-button" onclick="goToHome()" aria-label="Return to home">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -74,12 +80,78 @@
 
     <button class="share-button" onclick="shareGame()" aria-label="Share game">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8.59 13.51l6.83 3.98m-.01-10.98l-6.82 3.98M21 5a3 3 0 11-6 0 3 3 0 016 0zM9 12a3 3 0 11-6 0 3 3 0 016 0zm12 7a3 3 0 11-6 0 3 3 0 016 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8.59 13.51l6.83 3.98m-.01-10.98l-6.82 3.98M21 5a3 3 0 11-6 0 3 3 0 016 0zM9 12a3 3 0 11-6 0 3 3 0 616 0zm12 7a3 3 0 11-6 0 3 3 0 616 0z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
     </button>
 
     <!-- Toast notification -->
     <div class="toast" id="toast"></div>
+
+    <!-- App Info Modal -->
+    <div class="modal-overlay" id="appInfoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">About TEN</h2>
+                <button class="modal-close" onclick="closeAppInfo()" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <!-- About Sennep Games -->
+                <h3>🎮 About Sennep Games</h3>
+                <p><a href="https://sennepgames.com" target="_blank" rel="noopener">Sennep Games</a> is the playful arm of <a href="https://sennep.com" target="_blank" rel="noopener">Sennep</a>, an award-winning London-based design studio known for crafting beautiful, interactive experiences. Led by Matt Rice and Hege Aaby, the team blends visual craft with thoughtful UX to create games that are easy to pick up but hard to put down.</p>
+
+                <p>Their portfolio includes mobile titles like <em>OLO</em>, <em>OLO Loco</em>, and <em>Alphaputt</em>. They're currently developing <em>Polyverse</em> — a numbers-based 3D puzzle for mobile and mixed reality — and <em>TEN</em>, a modern reimagining of Ultimate Tic-Tac-Toe. <em>TEN</em> is both an experiment in AI-assisted game development and a fully playable Progressive Web App (PWA).</p>
+
+                <!-- Got Ideas for TEN -->
+                <h3>💌 Got Ideas for TEN?</h3>
+                <p><em>TEN</em> is an ongoing project, and we've got plenty of ideas for what's next — but we'd love to hear yours too. Got a feature in mind? Spot a bug? Drop us a line at <a href="mailto:matt@sennep.com?subject=TEN Game Feedback">matt@sennep.com</a> and we'll see what we can do.</p>
+
+                <div style="background-color: rgba(51, 122, 255, 0.1); border-radius: 8px; padding: 16px; margin: 16px 0;">
+                    <p style="margin: 0; color: white; font-weight: 500;">💡 <strong>Pro Tip:</strong> Once installed, TEN will launch like a native app with faster loading and offline play!</p>
+                </div>
+
+                <!-- What's a PWA -->
+                <h3>📲 What's a PWA?</h3>
+                <p>TEN is a Progressive Web App (PWA) - it works like a website but feels like a native app. PWAs offer the best of both worlds: the reach of the web with the experience of native apps.</p>
+                
+                <p><strong>PWA Benefits:</strong></p>
+                <ul>
+                    <li>🚀 <strong>Fast loading</strong> - Cached for instant startup</li>
+                    <li>📱 <strong>App-like experience</strong> - Full screen, no browser UI</li>
+                    <li>🔄 <strong>Offline play</strong> - Works without internet</li>
+                    <li>🔄 <strong>Auto-updates</strong> - Always the latest version</li>
+                    <li>💾 <strong>Small footprint</strong> - No large download required</li>
+                </ul>
+
+                <!-- Add to Home Screen -->
+                <h3>➕ Install TEN</h3>
+                <p><strong>On iOS (Safari):</strong></p>
+                <ol>
+                    <li>Tap the share button <svg style="width: 16px; height: 16px; display: inline; vertical-align: middle;" viewBox="0 0 24 24"><path d="M8.59 13.51l6.83 3.98m-.01-10.98l-6.82 3.98M21 5a3 3 0 11-6 0 3 3 0 616 0zM9 12a3 3 0 11-6 0 3 3 0 616 0zm12 7a3 3 0 11-6 0 3 3 0 616 0z" fill="none" stroke="currentColor" stroke-width="2"/></svg></li>
+                    <li>Select "Add to Home Screen"</li>
+                    <li>Tap "Add" to install</li>
+                </ol>
+
+                <p><strong>On Android (Chrome):</strong></p>
+                <ol>
+                    <li>Tap the menu (⋮) in browser</li>
+                    <li>Select "Add to Home screen" or "Install app"</li>
+                    <li>Tap "Add" or "Install"</li>
+                </ol>
+
+                <p><strong>On Desktop:</strong></p>
+                <ol>
+                    <li>Look for install icon in address bar</li>
+                    <li>Click "Install TEN" when prompted</li>
+                    <li>Or use browser menu > "Install TEN"</li>
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button" onclick="closeAppInfo()">
+                    <span class="modal-button-text">Got it!</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- How to Play Modal -->
     <div class="modal-overlay" id="howToPlayModal">

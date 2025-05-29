@@ -5,7 +5,7 @@
 // Analytics configuration
 const ANALYTICS_CONFIG = {
     // Replace with your actual GA4 measurement ID
-    measurementId: 'G-YOUR_GA_ID',
+    measurementId: 'G-Y4LTM4JLVF',
     
     // Custom dimensions (if you set them up in GA4)
     customDimensions: {
